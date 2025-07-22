@@ -1,39 +1,69 @@
 package DesafioCadastroPet;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class AlterarPet {
     List<String> buscaPet = new ArrayList<String>();
     Scanner scanner = new Scanner(System.in);
-    List<String> nomeArquivos = new ArrayList<>();
+    File listaAnimais = new File("AnimaisCadastrados");
 
-    public Integer menuCriterio(){
+    public void mostrarMenuCriterio() {
         buscaPet.add("1 - Nome ou sobrenome");
         buscaPet.add("2 - Sexo");
         buscaPet.add("3 - Idade");
         buscaPet.add("4 - Peso");
         buscaPet.add("5 - Raça");
         buscaPet.add("6 - Endereço");
-        for (String linha : buscaPet){
+        for (String linha : buscaPet) {
             System.out.println(linha);
         }
-        System.out.println("Selecione o número do critério que você deseja realizar a sua busca:  ");
-        Integer resposta = Integer.parseInt(scanner.nextLine());
-        return resposta;
     }
 
-    public void realizarBusca(Integer criterio){
-        if(criterio == 1){
-            System.out.println("Digite o nome do cachorro que você deseja realizar a busca: ");
-            String nomeCachorro = scanner.nextLine();
-            File diretorio = new File("C:\\Desafio - cadastroPet\\AnimaisCadastrados");
-            for (String file : diretorio.list()) {
-                System.out.println(file);
+    public Integer validaCriterio() {
+        while (true) {
+            try {
+                System.out.println("Selecione o número do critério que você deseja realizar a sua busca:  ");
+                Integer resposta = Integer.parseInt(scanner.nextLine());
+                return resposta;
+            } catch (NumberFormatException e) {
+                System.err.println("Favor, responda novamente informando apenas o número:  ");
             }
-
         }
     }
+
+    public void realizarBusca(Integer criterio) throws IOException {
+        Path file = Paths.get("petsCadastrados");
+        try (Stream<Path> files = Files.list(file)) {
+            files.forEach(AlterarPet::lerArquivo);
+        } catch (IOException e) {
+            System.err.println("Erro ao listar arquivos: " + e.getMessage());
+        }
+        if (criterio == 1) {
+            System.out.println("Digite o nome do cachorro que você deseja realizar a busca: ");
+            String nomeCachorroEscolhido = scanner.nextLine();
+        }
+    }
+    public static void lerArquivo(Path arquivo){
+            try (BufferedReader reader = Files.newBufferedReader(arquivo, StandardCharsets.UTF_8)) {
+                String line;
+                System.out.println("Lendo arquivo: " + arquivo.getFileName());
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+            } catch (IOException e) {
+                System.err.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
+            }
+        }
 }
+

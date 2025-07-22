@@ -1,5 +1,6 @@
 package DesafioCadastroPet;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -39,7 +40,7 @@ public class Menu {
         return escolha;
     }
 
-    public void LerEscolha(Integer escolhaDoUsuario){
+    public void LerEscolha(Integer escolhaDoUsuario) throws IOException {
         switch (escolhaDoUsuario){
             case 1:
                 Pet cadastroPet = new Pet();
@@ -48,8 +49,9 @@ public class Menu {
 
             case 2:
                 AlterarPet alterar = new AlterarPet();
-                Integer criterioSelecionado = alterar.menuCriterio();
-                alterar.realizarBusca(criterioSelecionado);
+                alterar.mostrarMenuCriterio();
+                Integer respostaUsuario = alterar.validaCriterio();
+                alterar.realizarBusca(respostaUsuario);
                 break;
 
         }

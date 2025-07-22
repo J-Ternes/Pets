@@ -265,7 +265,7 @@ public class Pet {
 
         String nome = respostasUsuario.get(0).replaceAll("\\s+","");
         String nomeMaiusculo = nome.toUpperCase();
-        Path nomePasta = Paths.get("AnimaisCadastrados");
+        Path nomePasta = Paths.get("petsCadastrados");
         Path pastaCadastroPet = Files.createDirectories(nomePasta);
         Path salvandoPets = Paths.get(pastaCadastroPet.toString(),(diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
         //File novoArquivo = new File((diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
