@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -263,17 +265,17 @@ public class Pet {
 
         String nome = respostasUsuario.get(0).replaceAll("\\s+","");
         String nomeMaiusculo = nome.toUpperCase();
-
-
-
-        File novoArquivo = new File((diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
-        novoArquivo.createNewFile(); //Criei o arquivo
-
+        Path nomePasta = Paths.get("AnimaisCadastrados");
+        Path pastaCadastroPet = Files.createDirectories(nomePasta);
+        Path salvandoPets = Paths.get(pastaCadastroPet.toString(),(diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
+        //File novoArquivo = new File((diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
+        //novoArquivo.createNewFile(); //Criei o arquivo
+        Files.createFile(salvandoPets);
         for(String linha : respostasUsuario){
             int indice = respostasUsuario.indexOf(linha);
             int indice2 = indice + 1;
             conteudo.append((indice2 + " - ") + (linha + "\n"));
-            Files.write(novoArquivo.toPath(),conteudo.toString().getBytes(StandardCharsets.UTF_8),StandardOpenOption.CREATE);
+            Files.write(salvandoPets,conteudo.toString().getBytes(StandardCharsets.UTF_8),StandardOpenOption.CREATE);
         }
 
 
