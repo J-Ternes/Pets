@@ -2,13 +2,13 @@ package DesafioCadastroPet;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -44,23 +44,20 @@ public class AlterarPet {
         }
     }
 
-    public void realizarBusca(Integer criterio) throws IOException {
+    public void realizarBusca(Integer criterio)  {
         Path file = Paths.get("petsCadastrados");
         try (Stream<Path> files = Files.list(file)) {
-            files.forEach(arquivo -> lerArquivo(arquivo));
-
+            files.forEach(arquivo -> lerArquivo(arquivo,criterio));
         } catch (IOException e) {
             System.err.println("Erro ao listar arquivos: " + e.getMessage());
         }
         }
-    public void lerArquivo(Path arquivo) {
+    public void lerArquivo(Path arquivo, Integer criterio) {
         try (BufferedReader reader = Files.newBufferedReader(arquivo, StandardCharsets.UTF_8)) {
             String line;
-            System.out.println("");
-            while ((line = reader.readLine()) != null) {
-                System.out.print(line.substring(1));
-            }
-
+            List<String> dadosAnimais = new ArrayList<>();
+            while ((line = reader.readLine())!= null)
+                dadosAnimais.add(line.substring(2));
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
         }

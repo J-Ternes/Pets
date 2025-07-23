@@ -268,8 +268,6 @@ public class Pet {
         Path nomePasta = Paths.get("petsCadastrados");
         Path pastaCadastroPet = Files.createDirectories(nomePasta);
         Path salvandoPets = Paths.get(pastaCadastroPet.toString(),(diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
-        //File novoArquivo = new File((diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
-        //novoArquivo.createNewFile(); //Criei o arquivo
         Files.createFile(salvandoPets);
         for(String linha : respostasUsuario){
             int indice = respostasUsuario.indexOf(linha);
