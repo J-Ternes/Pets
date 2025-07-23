@@ -18,6 +18,8 @@ public class AlterarPet {
     Scanner scanner = new Scanner(System.in);
     File listaAnimais = new File("AnimaisCadastrados");
 
+
+
     public void mostrarMenuCriterio() {
         buscaPet.add("1 - Nome ou sobrenome");
         buscaPet.add("2 - Sexo");
@@ -45,25 +47,26 @@ public class AlterarPet {
     public void realizarBusca(Integer criterio) throws IOException {
         Path file = Paths.get("petsCadastrados");
         try (Stream<Path> files = Files.list(file)) {
-            files.forEach(AlterarPet::lerArquivo);
+            files.forEach(arquivo -> lerArquivo(arquivo));
+
         } catch (IOException e) {
             System.err.println("Erro ao listar arquivos: " + e.getMessage());
         }
-        if (criterio == 1) {
-            System.out.println("Digite o nome do cachorro que você deseja realizar a busca: ");
-            String nomeCachorroEscolhido = scanner.nextLine();
+        }
+    public void lerArquivo(Path arquivo) {
+        try (BufferedReader reader = Files.newBufferedReader(arquivo, StandardCharsets.UTF_8)) {
+            String line;
+            System.out.println("");
+            while ((line = reader.readLine()) != null) {
+                System.out.print(line.substring(1));
+            }
+
+        } catch (IOException e) {
+            System.err.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
         }
     }
-    public static void lerArquivo(Path arquivo){
-            try (BufferedReader reader = Files.newBufferedReader(arquivo, StandardCharsets.UTF_8)) {
-                String line;
-                System.out.println("Lendo arquivo: " + arquivo.getFileName());
-                while ((line = reader.readLine()) != null) {
-                    System.out.println(line);
-                }
-            } catch (IOException e) {
-                System.err.println("Erro ao ler o arquivo " + arquivo.getFileName() + ": " + e.getMessage());
-            }
-        }
+
+
+
 }
 
