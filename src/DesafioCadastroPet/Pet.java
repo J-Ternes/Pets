@@ -267,12 +267,11 @@ public class Pet {
         String nomeMaiusculo = nome.toUpperCase();
         Path nomePasta = Paths.get("petsCadastrados");
         Path pastaCadastroPet = Files.createDirectories(nomePasta);
-        Path salvandoPets = Paths.get(pastaCadastroPet.toString(),(diaAtualFormatado.format(diaAtual)+ "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
+        Path salvandoPets = Paths.get(pastaCadastroPet.toString(),(diaAtualFormatado.format(diaAtual)+
+                "T" + hora + minuto + "-" + nomeMaiusculo + ".txt"));
         Files.createFile(salvandoPets);
-        for(String linha : respostasUsuario){
-            int indice = respostasUsuario.indexOf(linha);
-            int indice2 = indice + 1;
-            conteudo.append((indice2 + " - ") + (linha + "\n"));
+        for(int i = 0; i < respostasUsuario.size(); i++){
+            conteudo.append((i+1) + " - " + respostasUsuario.get(i) + "\n");
             Files.write(salvandoPets,conteudo.toString().getBytes(StandardCharsets.UTF_8),StandardOpenOption.CREATE);
         }
 
